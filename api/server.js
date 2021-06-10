@@ -5,6 +5,7 @@ const userRouter = require('./users/user.router');
 const userTrainingRouter = require('./userTraining/userTraining.router');
 
 require('dotenv').config();
+const PORT = process.env.PORT || 80;
 
 //1. Creat e server
 //2. inint global madl
@@ -35,6 +36,12 @@ module.exports = class UserServer {
   initRoutes() {
     this.server.use('/users', userRouter);
     this.server.use('/training', userTrainingRouter);
+    this.server.get('/', (req, res) => {
+      res.end('<h1>HOMEPAGE<h1>');
+    });
+    this.server.get('/about', (req, res) => {
+      res.end('<h1>ABOUT PAGE<h1>');
+    });
   }
   async initDatabase() {
     try {
@@ -47,8 +54,8 @@ module.exports = class UserServer {
   }
 
   startListening() {
-    this.server.listen(process.env.PORT || 3001, () => {
-      console.log('Server is listen on port', process.env.PORT);
+    this.server.listen(PORT, () => {
+      console.log('Server is listen on port', PORT);
     });
   }
 };
